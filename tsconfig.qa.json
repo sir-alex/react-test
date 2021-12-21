@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig",
+    "exclude": [
+        "jest",
+        "./src/**/__tests__/*",
+        "./src/**/__tests_switched_off__/*"
+    ],
+    "compilerOptions": {
+        "target": "es6",
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "sourceMap": true,
+    }
+}

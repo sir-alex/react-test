@@ -1,15 +1,14 @@
-const path = require(`path`);
-const alias = require(`./aliases`);
-
-const SRC = `./src`;
-const aliases = alias(SRC);
-
-const resolvedAliases = Object.fromEntries(
-    Object.entries(aliases).map(([key, value]) => [key, path.resolve(__dirname, value)]),
-);
+const CracoAlias = require('craco-alias');
 
 module.exports = {
-    webpack: {
-        alias: resolvedAliases,
-    },
+    plugins: [
+        {
+            plugin: CracoAlias,
+            options: {
+                source: "tsconfig",
+                baseUrl: "./src",
+                tsConfigPath: "./tsconfig.paths.json"
+            }
+        }
+    ]
 };
