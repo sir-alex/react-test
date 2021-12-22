@@ -18,7 +18,7 @@ module.exports = {
     'testRegex': '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
     'testPathIgnorePatterns': [
         '/node_modules/',
-        '(/__tests__/__testcases__/.*|(\\.|/)(case))\\.tsx?$',
+        '(/__tests__/__testcases__/.*|(\\.|/)(case|helpers))\\.tsx?$',
         '/__tests_switched_off__/',
     ],
     'moduleFileExtensions': [
@@ -34,7 +34,7 @@ module.exports = {
         '^@root/(.*)': '<rootDir>/src/$1',
         '^@core/(.*)': '<rootDir>/src/core/$1',
         '^@modules/(.*)': '<rootDir>/src/modules/$1',
-        '^@types/(.*)': '<rootDir>/src/types/$1',
+        '^@type/(.*)': '<rootDir>/src/type/$1',
     },
     'collectCoverage': true,
     'collectCoverageFrom': [

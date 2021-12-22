@@ -1,0 +1,6 @@
+{
+    "type": "about:blank",
+    "title": "Bad Request",
+    "detail": "'account' is a required property",
+    "status": 400
+}
