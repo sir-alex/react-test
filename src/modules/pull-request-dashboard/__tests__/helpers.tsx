@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, RenderResult, waitFor } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import { LocalizationProvider } from '@mui/lab';
 import { PullRequestsDashboard } from '@modules/pull-request-dashboard';

@@ -13,7 +13,7 @@ interface Props {
     onChangeDateTo: IDatePickerOnChange;
 }
 
-export const Dates: React.FC<Props> = React.memo((props) => {
+export const DatesSection: React.FC<Props> = React.memo((props) => {
     return (
         <section
             data-testid={PrDashboardTestIds.sectionDates}
