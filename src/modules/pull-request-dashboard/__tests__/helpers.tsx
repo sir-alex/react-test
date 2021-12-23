@@ -4,10 +4,14 @@ import { PullRequestsDashboard } from '@modules/pull-request-dashboard';
 import userEvent, { TargetElement } from '@testing-library/user-event';
 import { IPullRequestsParamsMetrics } from '@core/services/api/endpoints/pull-requests-api-class';
 import { PrDashboardTestIds } from '@type/test-ids';
+import DateAdapter from '@mui/lab/AdapterMoment';
+import { LocalizationProvider } from '@mui/lab';
 
 export const getMountedInstance = (): RenderResult => {
     return render (
-        <PullRequestsDashboard/>
+        <LocalizationProvider dateAdapter={DateAdapter}>
+            <PullRequestsDashboard/>
+        </LocalizationProvider>
     )
 }
 
