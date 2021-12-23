@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
-import { primary } from '@root/core/themes/primary';
+import { athenian } from '@core/themes/athenian';
 
 export const datesStyle = () => {
     return css`
       text-align: center;
-      @media (min-width: 576px) {
+      @media (min-width: ${athenian.breakpoints.sm}px) {
         & div:first-child {
           text-align: right;
         }

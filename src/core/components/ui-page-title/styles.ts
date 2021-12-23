@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { primary } from '@root/core/themes/primary';
+import { athenian } from '@core/themes/athenian';
 
 export const titleStyle = () => {
     return css`
@@ -7,6 +7,6 @@ export const titleStyle = () => {
       font-size: 2.2rem;
       font-weight: bold;
       padding: 50px 0;
-      color: ${primary.fontColors.primary}
+      color: ${athenian.fontColors.primary}
     `;
 };

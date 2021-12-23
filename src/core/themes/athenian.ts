@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-export const primary = {
+export const athenian = {
     breakpoints: {
         xs: 0,
         sm: 576,
@@ -13,12 +13,25 @@ export const primary = {
     },
     fontColors: {
         primary: 'black'
+    },
+    bg: {
+        body: '#f5f5f5',
+        box: 'white'
     }
 }
 
-export const athenianTheme = createTheme({
+export const athenianMuiTheme = createTheme({
     breakpoints: {
-        values: primary.breakpoints
+        values: athenian.breakpoints
+    },
+    components: {
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    background: athenian.bg.box
+                }
+            }
+        },
     },
     palette: {
         secondary: {
