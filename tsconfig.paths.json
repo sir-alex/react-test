@@ -5,7 +5,8 @@
             "@root/*": ["./*"],
             "@core/*": ["./core/*"],
             "@modules/*": ["./modules/*"],
-            "@type/*": ["./type/*"]
+            "@type/*": ["./type/*"],
+            "@assets/*": ["./assets/*"]
         }
     }
 }

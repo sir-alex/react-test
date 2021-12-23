@@ -1,11 +1,13 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
 import React from 'react';
-import { css } from '@emotion/react';
+import { jsx, css } from '@emotion/react';
 import logo from './logo-grey.png';
 import timeseriesScreen from './timeseries-screen.png';
 import histogramScreen from './histogram-screen.png';
 import kpiScreen from './kpi-screen.png';
 
-const App_: React.FC = () => {
+const AppOld: React.FC = () => {
     return (
         <div css={appStyle}>
             <header>
@@ -127,4 +129,4 @@ const boxStyle = () => {
 };
 
 
-export default App_;
+export default AppOld;

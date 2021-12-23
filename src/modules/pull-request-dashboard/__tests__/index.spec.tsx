@@ -13,14 +13,18 @@ describe('Pull requests dashboard integration tests', () => {
 
     it('Initial render should contain dates, tabs and add section', async () => {
         const { getByTestId } = PrDashboardHelpers.getMountedInstance();
-        const [ sectionDates, sectionTabs, sectionAdd, sectionChart ] = await waitFor(() => {
+        const [ logo, title, sectionDates, sectionTabs, sectionAdd, sectionChart ] = await waitFor(() => {
             return [
+                getByTestId(PrDashboardTestIds.logo),
+                getByTestId(PrDashboardTestIds.title),
                 getByTestId(PrDashboardTestIds.sectionDates),
                 getByTestId(PrDashboardTestIds.sectionTabs),
                 getByTestId(PrDashboardTestIds.sectionAdd),
                 getByTestId(PrDashboardTestIds.sectionChart),
             ]
         })
+        expect(logo).toBeDefined();
+        expect(title).toBeDefined();
         expect(sectionDates).toBeDefined();
         expect(sectionTabs).toBeDefined();
         expect(sectionAdd).toBeDefined();

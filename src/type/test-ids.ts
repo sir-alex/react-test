@@ -1,4 +1,6 @@
 export enum PrDashboardTestIds {
+    logo = 'logo',
+    title = 'title',
     addTab = 'add-tab',
     addText = 'add-text',
     addBtn = 'add-btn',

@@ -14,6 +14,7 @@ module.exports = {
     ],
     'transform': {
         '^.+\\.tsx?$': 'ts-jest',
+        "^.+\\.svg$": "<rootDir>/svgTransform.js"
     },
     'testRegex': '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
     'testPathIgnorePatterns': [
@@ -35,6 +36,7 @@ module.exports = {
         '^@core/(.*)': '<rootDir>/src/core/$1',
         '^@modules/(.*)': '<rootDir>/src/modules/$1',
         '^@type/(.*)': '<rootDir>/src/type/$1',
+        '^@assets/(.*)': '<rootDir>/src/assets/$1',
     },
     'collectCoverage': true,
     'collectCoverageFrom': [
