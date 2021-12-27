@@ -9,7 +9,7 @@ import { PrDashboardTestIds } from '@type/test-ids';
 import { DatesSection } from './components/dates-section';
 import { TimeService } from '@root/core/services/time-service';
 import {
-    IPullRequestsError, IPullRequestsParamsGranularities,
+    IPullRequestsError,
     IPullRequestsParamsMetrics,
     IPullRequestsResponse
 } from '@core/services/api/endpoints/pull-requests-api-class';
