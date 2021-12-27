@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import React from 'react';
 import { Box } from '@mui/material';
 import { UiTabs } from '@core/components/ui-tabs';

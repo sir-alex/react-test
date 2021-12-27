@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import React from 'react';
 import { IDatePickerOnChange, UiDatePicker } from '@core/components/ui-datepicker';
 import { PrDashboardTestIds } from '@type/test-ids';
@@ -35,6 +34,7 @@ export const DatesSection: React.FC<Props> = React.memo((
                 value={valueDateFrom}
                 onChange={onChangeDateFrom}
                 minDate={moment(valueDateTo).subtract(dayLimits, 'days')}
+                maxDate={moment(valueDateTo)}
                 helperText={isValid ? '' : `Min value: DateTo minus ${dayLimits} days`}
                 data-testid={PrDashboardTestIds.dateFrom}
             />

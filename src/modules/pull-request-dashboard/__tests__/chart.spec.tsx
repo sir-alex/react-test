@@ -4,11 +4,8 @@ import { PrDashboardTestIds } from '@type/test-ids';
 import { IPullRequestsParamsMetrics } from '@core/services/api/endpoints/pull-requests-api-class';
 import { PrDashboardHelpers } from './helpers';
 import { Api } from '@core/services/api/api';
-import * as ReactQuery from 'react-query';
 
 jest.mock('@core/services/request-service');
-
-const chartError = require('@core/services/__mockData__/metrics-pull_requests/error.json');
 
 let mountedInstance: RenderResult;
 const testMetric = IPullRequestsParamsMetrics.prClosed;
@@ -76,8 +73,9 @@ describe('Chart section spy integration tests', () => {
         delete process.env.IS_TESTMODE;
     })
     it('Error icon should be displayed if server returns error', async () => {
+        const chartErrorResponse = require('@core/services/__mockData__/metrics-pull_requests/error.json');
         const apiSpy = jest.spyOn(Api.pullRequests, 'postData').mockImplementation(
-            () => Promise.reject(chartError)
+            () => Promise.reject(chartErrorResponse)
         );
         const mountedInstance = PrDashboardHelpers.getMountedInstance();
         PrDashboardHelpers.createTab(mountedInstance, testMetric);

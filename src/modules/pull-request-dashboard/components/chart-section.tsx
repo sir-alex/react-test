@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import Highcharts from 'highcharts';

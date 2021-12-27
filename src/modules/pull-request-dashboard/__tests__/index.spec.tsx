@@ -1,4 +1,3 @@
-import React from 'react';
 import { waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { PullRequestsDashboard } from '@modules/pull-request-dashboard';

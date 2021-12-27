@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import React from 'react';
 import { Typography, TypographyProps } from '@mui/material';
 import { titleStyle } from '@core/components/ui-page-title/styles';

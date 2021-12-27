@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { css } from '@emotion/react';
 import logo from '@assets/img/logo_athenian.svg';
 import { PrDashboardTestIds } from '@type/test-ids';
 import { logoStyle } from '@core/components/ui-logo/styles';

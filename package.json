@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@date-io/moment": "^2.11.0",
+        "@emotion/css": "^11.7.1",
         "@emotion/react": "^11.5.0",
         "@emotion/styled": "^11.6.0",
         "@mui/icons-material": "^5.2.5",
@@ -29,6 +30,7 @@
         "build": "craco build",
         "test": "craco test",
         "eject": "craco eject",
+        "lint": "eslint .",
         "test:unit": "jest --coverage=false --config=jest.unit.config.js",
         "test:unit:watch": "jest --watch --config=jest.unit.config.js",
         "test:unit:clean": "jest --clearCache --config=jest.unit.config.js",
