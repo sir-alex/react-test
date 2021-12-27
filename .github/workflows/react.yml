@@ -1,0 +1,33 @@
+name: React CI
+
+on:
+  push:
+    branches: [ stage ]
+  pull_request:
+    branches: [ stage ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - name: Check linter
+    - uses: actions/checkout@v2
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: install
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: lint
+
+    - name: Build and push docker image
+      id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: flasher2085/react-test:latest
