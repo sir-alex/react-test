@@ -23,19 +23,18 @@ export function useChartSeriesBuild (
         return accCalculated;
     }
 
-    const memo = (type: ChartType): SeriesOptionsType[] => {
-        return data!.calculated.map((repo, ind) => {
-            const acc = calculateSum(repo.values);
-            const average = Math.round(acc / repo.values.length)
-            return {
-                name: `/${repo.for.repositories[0].split('/')[2] || 'Repo ' + ind} . Avg KPI: ${average}`,
-                type: type,
-                data: type === ChartType.line ? getTimeSeriesData(repo.values) : [acc]
-            }
-        })
-    }
-
     const memoSeries = React.useMemo(() => {
+        const memo = (type: ChartType): SeriesOptionsType[] => {
+            return data!.calculated.map((repo, ind) => {
+                const acc = calculateSum(repo.values);
+                const average = Math.round(acc / repo.values.length)
+                return {
+                    name: `/${repo.for.repositories[0].split('/')[2] || 'Repo ' + ind} . Avg KPI: ${average}`,
+                    type: type,
+                    data: type === ChartType.line ? getTimeSeriesData(repo.values) : [acc]
+                }
+            })
+        }
         return (data?.calculated) ? [memo(ChartType.line), memo(ChartType.column)] : [[], []];
     }, [data]);
 
