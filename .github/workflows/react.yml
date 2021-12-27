@@ -24,10 +24,3 @@ jobs:
     - uses: borales/actions-yarn@v2.3.0
       with:
         cmd: lint
-
-    - name: Build and push docker image
-      id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: flasher2085/react-test:latest
