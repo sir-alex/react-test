@@ -9,8 +9,8 @@ import { useTabsBuild } from '@core/hooks/useTabsBuild';
 
 interface Props {
     tabs: FinalTabs[];
-    selectedValue: FinalTabs;
-    onChange: (event: React.SyntheticEvent, value: FinalTabs) => void;
+    selectedValue: number;
+    onChange: (event: React.SyntheticEvent, value: number) => void;
     onClose: (event: React.SyntheticEvent, value: number) => void;
 }
 
@@ -19,6 +19,12 @@ export enum AddMetric {
 }
 
 export type FinalTabs = AddMetric | IPullRequestsParamsMetrics;
+
+export interface TabItem {
+    name: string;
+    value: number;
+    isClosable: boolean;
+}
 
 export const TabsSection: React.FC<Props> = React.memo((
     {

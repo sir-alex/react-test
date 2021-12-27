@@ -5,7 +5,8 @@ export class RequestService {
 
     public post<T extends unknown>(
         to: string,
-        params?: object
+        params?: object,
+        _?: string
     ): Promise<T> {
         const fullPath = this.buildApiPath(to);
         return axios.post(fullPath, params);

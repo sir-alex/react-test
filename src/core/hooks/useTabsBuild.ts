@@ -1,24 +1,25 @@
 import React from 'react';
-import { AddMetric, FinalTabs } from '@modules/pull-request-dashboard/components/tabs-section';
-import { TabItem } from '@core/components/ui-tabs';
+import { FinalTabs, TabItem } from '@modules/pull-request-dashboard/components/tabs-section';
 
-export function useTabsBuild (tabs: FinalTabs[]): TabItem<FinalTabs>[] {
+export function useTabsBuild (tabs: FinalTabs[]): TabItem[] {
 
-    return React.useMemo(() => {
+    const memoisedTabs = React.useMemo(() => {
         const finalTabs = tabs.map((tab, ind) => {
             return {
                 name: 'Tab ' + (ind + 1),
-                value: tab,
+                value: ind,
                 isClosable: true
             }
         });
         finalTabs.push({
             name: 'ADD',
-            value: AddMetric.add,
+            value: finalTabs.length,
             isClosable: false
         });
         return finalTabs;
     }, [tabs]);
+
+    return memoisedTabs;
 
 }
 

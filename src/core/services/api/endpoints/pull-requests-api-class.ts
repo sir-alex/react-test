@@ -2,7 +2,7 @@ import { CONFIG } from '@root/config';
 import { RequestService } from '@core/services/request-service';
 
 /*
-* TS contains only params used in FE. Full list of params available in
+* declared only types for params used in FE. Full list of params available in
 * https://api.athenian.co/v1/ui/#/metrics/calc_metrics_prs
 * */
 
@@ -19,7 +19,7 @@ export enum IPullRequestsParamsMetrics {
     prLeadCount = 'pr-lead-count',
     prCycleTime = 'pr-cycle-time',
     prCycleCount = 'pr-cycle-count',
-    prCycleOpened = 'pr-opened',
+    prOpened = 'pr-opened',
     prReviewed = 'pr-reviewed',
     prNotReviewed = 'pr-not-reviewed',
     prMerged = 'pr-merged',
@@ -38,7 +38,7 @@ export enum IPullRequestsParamsGranularities {
 
 export interface IPullRequestsParamsFor {
     repositories: string[];
-    repogroups?: [number[]];
+    repogroups?: number[][];
 }
 
 export interface IPullRequestsParams {
@@ -75,8 +75,8 @@ export interface IPullRequestsError {
 }
 
 export class PullRequestsApiClass extends RequestService {
-    public async postOrder (params: IPullRequestsParams): Promise<IPullRequestsResponse> {
+    public async postData (params: IPullRequestsParams): Promise<IPullRequestsResponse> {
         const apiPath = CONFIG.API.ENDPOINTS.PULL_REQUESTS;
-        return this.post<IPullRequestsResponse>(apiPath, params);
+        return this.post<IPullRequestsResponse>(apiPath, params, params.metrics[0]);
     }
 }

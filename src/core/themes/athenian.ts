@@ -12,17 +12,22 @@ export const athenian = {
         primary: 30
     },
     fontColors: {
-        primary: 'black'
+        primary: '#121242'
     },
     bg: {
         body: '#f5f5f5',
-        box: 'white'
-    }
+        box: '#fff',
+        secondary: '#ff6c37'
+    },
+    borderRadius: 10,
 }
 
 export const athenianMuiTheme = createTheme({
     breakpoints: {
         values: athenian.breakpoints
+    },
+    shape: {
+        borderRadius: athenian.borderRadius,
     },
     components: {
         MuiInputBase: {
@@ -34,8 +39,14 @@ export const athenianMuiTheme = createTheme({
         },
     },
     palette: {
+        primary: {
+            main: athenian.bg.box
+        },
         secondary: {
-            main: "#ff6c37"
-        }
-    }
+            main: athenian.bg.secondary,
+            contrastText: '#fff'
+        },
+        divider: '#ccc'
+    },
+    spacing: athenian.padding.primary / 2
 });

@@ -7,6 +7,12 @@ export const titleStyle = () => {
       font-size: 2.2rem;
       font-weight: bold;
       padding: 50px 0;
-      color: ${athenian.fontColors.primary}
+      margin-bottom: 0;
+      color: ${athenian.fontColors.primary};
+      @media (max-width: ${athenian.breakpoints.sm}px) {
+        font-size: 1rem;
+        padding: 20px 0;
+        font-weight: normal;
+      }
     `;
 };

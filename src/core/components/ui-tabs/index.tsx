@@ -1,9 +1,12 @@
-import * as React from 'react';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import React from 'react';
 import { Tab, Tabs } from '@mui/material';
 import IconButton from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { CommonService } from '@root/core/services/common-service';
 import { PrDashboardTestIds } from '@type/test-ids';
+import { tabStyle } from '@core/components/ui-tabs/styles';
 
 export interface TabItem<T> {
     name: string;
@@ -34,6 +37,8 @@ export const UiTabs: GenericPropsUiTabs = (
             onChange={onChange}
             textColor={'secondary'}
             indicatorColor={'secondary'}
+            variant="scrollable"
+            scrollButtons={'auto'}
             {...otherProps}
         >
             {tabs.map((tab, ind) =>
@@ -42,7 +47,7 @@ export const UiTabs: GenericPropsUiTabs = (
                     value={tab.value}
                     label={
                         <span>
-                            {tab.name}
+                            <span css={tab.isClosable ? tabStyle : ''}>{tab.name}</span>
                             {tab.isClosable &&
                                 <IconButton
                                     component="div"
@@ -55,6 +60,7 @@ export const UiTabs: GenericPropsUiTabs = (
                         </span>
                     }
                     data-testid={PrDashboardTestIds.tab}
+                    data-active={tab.isClosable && (selectedValue === tab.value) ? 'true': 'false'}
                 />
             )}
         </Tabs>

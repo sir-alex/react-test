@@ -1,14 +1,13 @@
-const localStorage = require('localStorage');
-
-const getItem = (key: string): any => {
-    return localStorage.getItem(key);
+export function getItem (key: string, isParse: boolean = false): any {
+    const val = localStorage.getItem(key);
+    return val ? (isParse ? JSON.parse(val) : val) : null;
 }
 
-const remove = (key: string): void => {
+export function remove (key: string): void {
     localStorage.removeItem(key);
 }
 
-const setItem = (key: string, value: any): void => {
+export function setItem (key: string, value: any): void {
     value = typeof value === 'object' ? JSON.stringify(value) : value;
     localStorage.setItem(key, value);
 }

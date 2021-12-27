@@ -7,7 +7,7 @@ import { mainStyle } from '@modules/layouts/styles';
 export const Main: React.FC = (props) => {
     return (
         <Container
-            maxWidth="md"
+            maxWidth="xl"
             css={mainStyle}
         >
             {props.children}
