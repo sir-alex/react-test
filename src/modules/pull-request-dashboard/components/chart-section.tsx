@@ -9,8 +9,9 @@ import {
     chartTextStyle
 } from '@modules/pull-request-dashboard/styles/chart';
 import { FinalTabs } from '@modules/pull-request-dashboard/components/tabs-section';
-import { CONFIG } from '@root/config';
 import { ChartBox } from '@modules/pull-request-dashboard/components/chart-box';
+
+import { CONFIG } from '@root/config';
 
 interface Props {
     selectedMetric: FinalTabs;

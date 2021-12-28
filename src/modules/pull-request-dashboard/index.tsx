@@ -1,30 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import moment from 'moment';
-import { useQuery } from 'react-query';
 import { Box } from '@mui/material';
 import { UiLogo } from '@core/components/ui-logo';
 import { UiPageTitle } from '@core/components/ui-page-title';
 import { PrDashboardTestIds } from '@type/test-ids';
 import { DatesSection } from './components/dates-section';
 import { TimeService } from '@root/core/services/time-service';
-import {
-    IPullRequestsError,
-    IPullRequestsParamsMetrics,
-    IPullRequestsResponse
-} from '@core/services/api/endpoints/pull-requests-api-class';
+import { IPullRequestsParamsMetrics } from '@core/services/api/endpoints/pull-requests-api-class';
 import { FinalTabs, TabsSection } from '@modules/pull-request-dashboard/components/tabs-section';
 import { boxMui, boxStyles, errorContainerStyles } from '@modules/pull-request-dashboard/styles/box';
 import { AddSection } from '@modules/pull-request-dashboard/components/add-section';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 import { ChartSection } from '@modules/pull-request-dashboard/components/chart-section';
-import { Api } from '@core/services/api/api';
-import { fixedPostData } from '@modules/pull-request-dashboard/params/fixed-post-data';
-import { useChartSeriesBuild } from '@core/hooks/useChartSeriesBuild';
-import { PrDashboardServices } from './services';
-import { CONFIG } from '@root/config';
+import { useChartSeriesBuild } from '@modules/pull-request-dashboard/hooks';
 import { UiError } from '@core/components/ui-error';
 import { LocalStorage } from '@root/core/services/local-storage';
+import { useChartsData } from '@core/hooks/useChartsData';
+
+import { CONFIG } from '@root/config';
 
 enum DatesEnum {
     from = 'from',
@@ -40,56 +34,44 @@ export const PullRequestsDashboard: React.FC = React.memo(() => {
     const [metric, setMetric] = React.useState<IPullRequestsParamsMetrics | ''>('');
     const [isAddValid, setIsAddValid] = React.useState(false);
     const [tabs, setTabs] = React.useState<FinalTabs[]>(LocalStorage.getItem('tabs', true) || []);
-    const [activeTab, setActiveTab] = React.useState<number>(LocalStorage.getItem('activeTab', true) || tabs.length);
-
-    const fetchCharts = async () => {
-        // @ts-ignore
-        const { data } = await Api.pullRequests.postData({
-            ...fixedPostData,
-            metrics: [tabs[activeTab] as IPullRequestsParamsMetrics],
-            date_from: dateFrom,
-            date_to: dateTo,
-            granularities: PrDashboardServices.getGranularity(dateFrom, dateTo)
-        });
-        return data;
-    };
-
-    const { isLoading, data, error } = useQuery<IPullRequestsResponse, IPullRequestsError>(
-        ['charts', dateFrom, dateTo, tabs[activeTab]],
-        fetchCharts,
-        {
-            ...CONFIG.API.FETCH_OPTIONS,
-            enabled: Boolean(tabs[activeTab]) && TimeService.isDatesDiffLessThanLimit(dateFrom, dateTo, CONFIG.DATE_RANGE_LIMIT_DAYS, 'days'),
-        }
+    const [activeTab, setActiveTab] = React.useState<number>(
+        LocalStorage.getItem('activeTab')
+            ? JSON.parse(LocalStorage.getItem('activeTab'))
+            : tabs.length
     );
+    const { isLoading, data, error } = useChartsData(tabs, activeTab, dateFrom, dateTo);
+    const [timeSeries, columnSeries] = useChartSeriesBuild(data);
 
-    const dateHandler = (type: DatesEnum, date: moment.Moment | null): void => {
+    const dateHandler = React.useCallback((type: DatesEnum, date: moment.Moment | null) => {
         if (date) {
             const dateFormatted = moment.isMoment(date) ? TimeService.toBeSentToServer(date) : date;
             type === DatesEnum.from ? setDateFrom(dateFormatted) : setDateTo(dateFormatted);
         }
-    };
-    const tabsChangeHandler = (event: React.SyntheticEvent, value: number) => {
+    }, [setDateFrom, setDateTo]);
+
+    const tabsChangeHandler = React.useCallback((event: React.SyntheticEvent, value: number) => {
         LocalStorage.setItem('activeTab', value);
         setActiveTab(value);
-    }
-    const tabCloseHandler = (event: React.SyntheticEvent, value: number) => {
+    }, [setActiveTab]);
+
+    const tabCloseHandler = React.useCallback((event: React.SyntheticEvent, value: number) => {
         event.stopPropagation();
         setTabs((oldTabs) => {
             setActiveTab(value);
             return oldTabs.filter((_, ind) => ind !== value );
         });
-    }
-    const selectHandler = (event: SelectChangeEvent<unknown>) => {
+    }, [setTabs, setActiveTab]);
+
+    const selectHandler = React.useCallback((event: SelectChangeEvent<unknown>) => {
         setMetric(event.target.value as IPullRequestsParamsMetrics);
-    }
-    const submitHandler = (event: React.SyntheticEvent<HTMLFormElement>) => {
+    }, [setMetric]);
+
+    const submitHandler = React.useCallback((event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (metric) {
             setTabs([...tabs, metric]);
         }
-    }
-    const [timeSeries, columnSeries] = useChartSeriesBuild(data);
+    }, [setTabs, tabs, metric]);
 
     React.useEffect(() => {
         LocalStorage.setItem('tabs', tabs);
@@ -128,8 +110,6 @@ export const PullRequestsDashboard: React.FC = React.memo(() => {
                 {error &&
                     <div css={errorContainerStyles}>
                         <UiError
-                            status={error?.status}
-                            text={error?.title}
                             data-testid={PrDashboardTestIds.chartError}
                         />
                     </div>

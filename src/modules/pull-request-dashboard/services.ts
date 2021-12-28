@@ -1,8 +1,14 @@
+import { SeriesOptionsType } from 'highcharts';
+
 import {
-    IPullRequestsParamsGranularities, IPullRequestsParamsMetrics,
+    IPullRequestsParamsGranularities,
+    IPullRequestsParamsMetrics,
+    IPullRequestsResponse,
+    IPullRequestsResponseCalculatedValues,
 } from '@core/services/api/endpoints/pull-requests-api-class';
 import { TimeService } from '@root/core/services/time-service';
 import { UiSelectOption } from '@core/components/ui-select';
+import { ChartType } from '@core/components/ui-chart';
 
 export function getMetricChoices (): UiSelectOption[] {
     /*
@@ -45,6 +51,34 @@ export function getGranularity (
     }
 
     return granularity();
+}
+
+export function buildCharts (
+    data: IPullRequestsResponse | undefined,
+    type: ChartType
+): SeriesOptionsType[] {
+    return data!.calculated.map((repo, ind) => {
+        const acc = calculateSum(repo.values);
+        const average = Math.round(acc / repo.values.length)
+        return {
+            name: `/${repo.for.repositories[0].split('/')[2] || 'Repo ' + ind} ${average ? 'Avg KPI: ' + average : ''}`,
+            type: type,
+            data: type === ChartType.line ? getTimeSeriesData(repo.values) : [acc]
+        }
+    })
+}
+
+export function getTimeSeriesData (values: IPullRequestsResponseCalculatedValues[]) {
+    return values.map((val) => {
+        return [Date.parse(val.date), parseInt(val.values[0])];
+    });
+}
+
+export function calculateSum (values: IPullRequestsResponseCalculatedValues[]): number {
+    const accCalculated = values.reduce((acc, val) => {
+        return acc + parseInt(val.values[0]);
+    }, 0);
+    return accCalculated;
 }
 
 export * as PrDashboardServices from './services';
