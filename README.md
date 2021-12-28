@@ -1,4 +1,4 @@
-# Docker
+# Read me
 
 ## run in docker DEV
 
@@ -20,3 +20,28 @@ docker-compose -f docker-compose.prod.yml up -d --build
 
 open localhost:1337
 
+## APP
+
+start locally
+```
+yarn start
+```
+build static
+```
+yarn build
+```
+
+## QA
+
+clean jest cache
+```
+yarn test:unit:clean
+```
+run tests
+```
+yarn test:unit
+```
+generate coverage report (Istanbul.js)
+```
+yarn test:unit:coverage
+```
