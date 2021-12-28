@@ -59,10 +59,9 @@ export const AddSection: React.FC<Props> = React.memo((
                     type={'submit'}
                     sx={{borderRadius: athenian.borderRadius / 2 + 'px'}}
                     disabled={!isFormValid}
+                    title={'ADD'}
                     data-testid={PrDashboardTestIds.addBtn}
-                >
-                    ADD
-                </UiButton>
+                />
             </form>
         </Box>
     );

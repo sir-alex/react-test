@@ -5,12 +5,12 @@ export type Props = ButtonProps & {
     onClick?: (event: React.SyntheticEvent<HTMLButtonElement>) => void;
 };
 
-export const UiButton: React.FC<Props> = React.memo(({title, children, ...otherProps}) => {
+export const UiButton: React.FC<Props> = React.memo(({title, ...otherProps}) => {
     return (
         <Button
             {...otherProps}
         >
-            {children}
+            {title}
         </Button>
     );
 });
