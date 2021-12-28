@@ -105,7 +105,7 @@ export const PullRequestsDashboard: React.FC = React.memo(() => {
             <Box
                 sx={boxMui}
                 bgcolor="primary.main"
-                css={[boxStyles, (error) ? errorContainerStyles : '']}
+                css={boxStyles}
             >
                 {error &&
                     <div css={errorContainerStyles}>

@@ -21,9 +21,6 @@ export const boxStyles = () => {
 
 export const errorContainerStyles = () => {
     return css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #ffe2f8;
+        padding-top: 25%;
     `;
 };
