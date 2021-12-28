@@ -4,6 +4,7 @@ import moment from 'moment';
 import { IDatePickerOnChange, UiDatePicker } from '@core/components/ui-datepicker';
 import { PrDashboardTestIds } from '@type/test-ids';
 import { datesStyle } from '@modules/pull-request-dashboard/styles/dates';
+
 import { CONFIG } from '@root/config';
 
 interface Props {

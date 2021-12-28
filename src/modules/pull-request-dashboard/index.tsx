@@ -14,10 +14,11 @@ import { AddSection } from '@modules/pull-request-dashboard/components/add-secti
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 import { ChartSection } from '@modules/pull-request-dashboard/components/chart-section';
 import { useChartSeriesBuild } from '@modules/pull-request-dashboard/hooks';
-import { CONFIG } from '@root/config';
 import { UiError } from '@core/components/ui-error';
 import { LocalStorage } from '@root/core/services/local-storage';
 import { useChartsData } from '@core/hooks/useChartsData';
+
+import { CONFIG } from '@root/config';
 
 enum DatesEnum {
     from = 'from',
@@ -33,7 +34,11 @@ export const PullRequestsDashboard: React.FC = React.memo(() => {
     const [metric, setMetric] = React.useState<IPullRequestsParamsMetrics | ''>('');
     const [isAddValid, setIsAddValid] = React.useState(false);
     const [tabs, setTabs] = React.useState<FinalTabs[]>(LocalStorage.getItem('tabs', true) || []);
-    const [activeTab, setActiveTab] = React.useState<number>(LocalStorage.getItem('activeTab', true) || tabs.length);
+    const [activeTab, setActiveTab] = React.useState<number>(
+        LocalStorage.getItem('activeTab')
+            ? JSON.parse(LocalStorage.getItem('activeTab'))
+            : tabs.length
+    );
     const { isLoading, data, error } = useChartsData(tabs, activeTab, dateFrom, dateTo);
     const [timeSeries, columnSeries] = useChartSeriesBuild(data);
 
@@ -105,8 +110,6 @@ export const PullRequestsDashboard: React.FC = React.memo(() => {
                 {error &&
                     <div css={errorContainerStyles}>
                         <UiError
-                            status={error?.status}
-                            text={error?.title}
                             data-testid={PrDashboardTestIds.chartError}
                         />
                     </div>

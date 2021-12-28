@@ -1,3 +1,5 @@
+import { SeriesOptionsType } from 'highcharts';
+
 import {
     IPullRequestsParamsGranularities,
     IPullRequestsParamsMetrics,
@@ -7,7 +9,6 @@ import {
 import { TimeService } from '@root/core/services/time-service';
 import { UiSelectOption } from '@core/components/ui-select';
 import { ChartType } from '@core/components/ui-chart';
-import { SeriesOptionsType } from 'highcharts';
 
 export function getMetricChoices (): UiSelectOption[] {
     /*
@@ -60,7 +61,7 @@ export function buildCharts (
         const acc = calculateSum(repo.values);
         const average = Math.round(acc / repo.values.length)
         return {
-            name: `/${repo.for.repositories[0].split('/')[2] || 'Repo ' + ind} . Avg KPI: ${average}`,
+            name: `/${repo.for.repositories[0].split('/')[2] || 'Repo ' + ind} ${average ? 'Avg KPI: ' + average : ''}`,
             type: type,
             data: type === ChartType.line ? getTimeSeriesData(repo.values) : [acc]
         }

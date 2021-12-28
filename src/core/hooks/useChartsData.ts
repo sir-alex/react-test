@@ -1,4 +1,6 @@
 import React from 'react';
+import { useQuery } from 'react-query';
+
 import { FinalTabs } from '@modules/pull-request-dashboard/components/tabs-section';
 import { Api } from '@core/services/api/api';
 import { fixedPostData } from '@modules/pull-request-dashboard/constants/fixed-post-data';
@@ -7,10 +9,9 @@ import {
     IPullRequestsParamsMetrics,
     IPullRequestsResponse
 } from '@core/services/api/endpoints/pull-requests-api-class';
-import { useQuery } from 'react-query';
-import { CONFIG } from '@root/config';
 import { PrDashboardServices } from '@root/modules/pull-request-dashboard/services';
 import { TimeService } from '../services/time-service';
+import { CONFIG } from '@root/config';
 
 export interface IUseChartsData {
     isLoading: boolean;
@@ -28,9 +29,9 @@ export function useChartsData (
     const isFetchAllowed = React.useMemo(
         () => {
             return Boolean(
-                tabs[activeTab]) &&
+                    tabs[activeTab]) &&
                 TimeService.isDatesDiffLessThanLimit(dateFrom, dateTo, CONFIG.DATE_RANGE_LIMIT_DAYS, 'days'
-            );
+                );
         },
         [tabs, activeTab, dateFrom, dateTo]
     )
