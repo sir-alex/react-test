@@ -27,7 +27,10 @@ export const ChartBox: React.FC<Props> = React.memo((
         testId
     }) => {
     return (
-        <Box css={chartBoxItemStyle}>
+        <Box
+            css={chartBoxItemStyle}
+            data-testid={testId}
+        >
             {isLoading &&
                 <div css={chartBoxItemLoadingBgStyle}>
                     <UiLoading data-testid={PrDashboardTestIds.chartLoading}/>

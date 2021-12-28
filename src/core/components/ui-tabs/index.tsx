@@ -51,7 +51,7 @@ export const UiTabs: GenericPropsUiTabs = (
                                 <IconButton
                                     component="div"
                                     onClick={(event: any) => onClose(event, ind)}
-                                    date-testid={PrDashboardTestIds.tabClose}
+                                    data-testid={PrDashboardTestIds.tabClose}
                                 >
                                     <CloseIcon color={'secondary'} />
                                 </IconButton>

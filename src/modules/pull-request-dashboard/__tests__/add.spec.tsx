@@ -5,10 +5,15 @@ import { IPullRequestsParamsMetrics } from '@core/services/api/endpoints/pull-re
 import { PrDashboardHelpers } from './helpers';
 import userEvent from '@testing-library/user-event';
 
+const testMetric = IPullRequestsParamsMetrics.prClosed;
+
 describe('Add section integration tests', () => {
 
     beforeAll (() => {
         process.env.IS_TESTMODE = 'true';
+    })
+    beforeEach (() => {
+        localStorage.clear();
     })
     afterAll(() => {
         delete process.env.IS_TESTMODE;
@@ -29,8 +34,8 @@ describe('Add section integration tests', () => {
         const { getByTestId } = PrDashboardHelpers.getMountedInstance();
         const addMetric = getByTestId(PrDashboardTestIds.addMetric);
         const addMetricSelect = addMetric.querySelector('select');
-        PrDashboardHelpers.selectMetric(addMetricSelect!, IPullRequestsParamsMetrics.prReviewCount);
-        expect((screen.getByRole('option', {name: IPullRequestsParamsMetrics.prReviewCount}) as HTMLOptionElement).selected).toBeTruthy();
+        PrDashboardHelpers.selectMetric(addMetricSelect!, testMetric);
+        expect((screen.getByRole('option', {name: testMetric}) as HTMLOptionElement).selected).toBeTruthy();
     });
 
     it('ADD button is enabled only if metric is selected', () => {
@@ -39,13 +44,13 @@ describe('Add section integration tests', () => {
         const addMetricSelect = addMetric.querySelector('select');
         const addBtn = getByTestId(PrDashboardTestIds.addBtn);
         expect(addBtn).toHaveAttribute('disabled');
-        PrDashboardHelpers.selectMetric(addMetricSelect!, IPullRequestsParamsMetrics.prReviewCount);
+        PrDashboardHelpers.selectMetric(addMetricSelect!, testMetric);
         expect(addBtn).not.toHaveAttribute('disabled');
     })
 
     it('After form submit new created tab should be selected', () => {
         const mountedInstance = PrDashboardHelpers.getMountedInstance();
-        PrDashboardHelpers.createTab(mountedInstance, IPullRequestsParamsMetrics.prReviewCount);
+        PrDashboardHelpers.createTab(mountedInstance, testMetric);
         const { getAllByTestId } = mountedInstance;
         const tabs = getAllByTestId(PrDashboardTestIds.tab);
         expect(tabs.length).toBe(2);
@@ -54,9 +59,10 @@ describe('Add section integration tests', () => {
 
     it('After form submit metric select should be dropped', () => {
         const mountedInstance = PrDashboardHelpers.getMountedInstance();
-        PrDashboardHelpers.createTab(mountedInstance, IPullRequestsParamsMetrics.prReviewCount);
+        PrDashboardHelpers.createTab(mountedInstance, testMetric);
         const { getAllByTestId, getByTestId } = mountedInstance;
         const tabs = getAllByTestId(PrDashboardTestIds.tab);
+        expect(tabs.length).toBe(2);
         userEvent.click(tabs[1]);
         const addBtn = getByTestId(PrDashboardTestIds.addBtn);
         expect(addBtn).toHaveAttribute('disabled');

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { PrDashboardTestIds } from '@type/test-ids';
 import { IPullRequestsParamsMetrics } from '@core/services/api/endpoints/pull-requests-api-class';
 import { PrDashboardHelpers } from './helpers';
-import { Api } from '@core/services/api/api';
+import * as hooks from '@core/hooks/useChartsData';
 
 jest.mock('@core/services/request-service');
 
@@ -16,6 +16,7 @@ describe('Chart section integration tests', () => {
         process.env.IS_TESTMODE = 'true';
     })
     beforeEach (() => {
+        localStorage.clear();
         mountedInstance = PrDashboardHelpers.getMountedInstance();
         PrDashboardHelpers.createTab(mountedInstance, testMetric);
         jest.clearAllMocks();
@@ -24,32 +25,18 @@ describe('Chart section integration tests', () => {
         delete process.env.IS_TESTMODE;
     })
 
-    it('Initial chart section should contain metric selected, time chart with KPI , group chart with KPI', async () => {
+    it('Initial chart section should contain metric selected, series chart, grouped chart', async () => {
         const { getByTestId } = mountedInstance;
-        const [ chartSelected, chartTime, chartTimeKpi, chartGroups, chartGroupsKpi ] = await waitFor(() => {
+        const [ chartSelected, chartTime, chartGroups ] = await waitFor(() => {
             return [
                 getByTestId(PrDashboardTestIds.chartSelected),
                 getByTestId(PrDashboardTestIds.chartTime),
-                getByTestId(PrDashboardTestIds.chartTimeKpi),
                 getByTestId(PrDashboardTestIds.chartGroups),
-                getByTestId(PrDashboardTestIds.chartGroupsKpi),
             ]
         })
         expect(chartSelected).toBeDefined();
         expect(chartTime).toBeDefined();
-        expect(chartTimeKpi).toBeDefined();
         expect(chartGroups).toBeDefined();
-        expect(chartGroupsKpi).toBeDefined();
-    })
-
-    it('Loading icon should be displayed during loading', async () => {
-        const { getByTestId } = mountedInstance;
-        const [ chartTimeLoading ] = await waitFor(() => {
-            return [
-                getByTestId(PrDashboardTestIds.chartLoading),
-            ]
-        })
-        expect(chartTimeLoading).toBeDefined();
     })
 
     it('Selected metric should be displayed correct', async () => {
@@ -69,16 +56,22 @@ describe('Chart section spy integration tests', () => {
     beforeAll (() => {
         process.env.IS_TESTMODE = 'true';
     })
+    beforeEach (() => {
+        localStorage.clear();
+        jest.clearAllMocks();
+    })
     afterAll(() => {
         delete process.env.IS_TESTMODE;
     })
+
     it('Error icon should be displayed if server returns error', async () => {
         const chartErrorResponse = require('@core/services/__mockData__/metrics-pull_requests/error.json');
-        const apiSpy = jest.spyOn(Api.pullRequests, 'postData').mockImplementation(
-            () => Promise.reject(chartErrorResponse)
-        );
+        const apiSpy = jest.spyOn(hooks, 'useChartsData').mockReturnValue({
+            isLoading: false,
+            data: undefined,
+            error: chartErrorResponse
+        });
         const mountedInstance = PrDashboardHelpers.getMountedInstance();
-        PrDashboardHelpers.createTab(mountedInstance, testMetric);
         const { getByTestId } = mountedInstance;
         const [ chartError ] = await waitFor(() => {
             return [
@@ -87,5 +80,23 @@ describe('Chart section spy integration tests', () => {
         })
         expect(apiSpy).toHaveBeenCalled();
         expect(chartError).toBeDefined();
+    })
+
+    it('Loading icon should be displayed during loading', async () => {
+        const apiSpy = jest.spyOn(hooks, 'useChartsData').mockReturnValue({
+            isLoading: true,
+            data: undefined,
+            error: null
+        });
+        const mountedInstance = PrDashboardHelpers.getMountedInstance();
+        PrDashboardHelpers.createTab(mountedInstance, testMetric);
+        const { getAllByTestId } = mountedInstance;
+        const [ chartLoading ] = await waitFor(() => {
+            return [
+                getAllByTestId(PrDashboardTestIds.chartLoading),
+            ]
+        })
+        expect(apiSpy).toHaveBeenCalled();
+        expect(chartLoading.length).toBe(2);
     })
 });
